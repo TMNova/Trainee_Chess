@@ -1,5 +1,4 @@
-package com.package_2;
-
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
@@ -44,6 +43,7 @@ class ChessBoard {
 
     void create() {
         Random r = new Random();
+
         Pawn[] pw = new Pawn[8];
         for (int i = 0; i < pw.length; i++) {
             pw[i] = new Pawn(true);
@@ -98,19 +98,162 @@ class ChessBoard {
         Queen qb = new Queen(false);
         qb.fillBoard(board);
 
-        showBoard(board);
-        pw[1].move(board);
-        bb[0].move(board);
-        rw[1].move(board);
-        cw[1].move(board);
-        pw[5].move(board);
-        qb.move(board);
-        kw.move(board);
-        showBoard(board);
+        String[][] tempBoard = fillTempBoard(board, getSizeX(), getSizeY());
+
+        int it = 0;
+
+
+        //simulating game
+        while (true) {
+            if (!(pw[0].canMove(board) || pw[1].canMove(board) || pw[2].canMove(board) || pw[3].canMove(board)
+                    || pw[4].canMove(board) || pw[5].canMove(board) || pw[6].canMove(board) || pw[7].canMove(board)
+                    || bw[0].canMove(board) || bw[1].canMove(board) || rw[0].canMove(board) || rw[1].canMove(board)
+                    || cw[0].canMove(board) || cw[1].canMove(board) || kw.canMove(board) || qw.canMove(board))) {
+                System.out.println("Game is over");
+                break;
+            }
+
+            if (!(pb[0].canMove(board) || pb[1].canMove(board) || pb[2].canMove(board) || pb[3].canMove(board)
+                    || pb[4].canMove(board) || pb[5].canMove(board) || pb[6].canMove(board) || pb[7].canMove(board)
+                    || bb[0].canMove(board) || bb[1].canMove(board) || rb[0].canMove(board) || rb[1].canMove(board)
+                    || cb[0].canMove(board) || cb[1].canMove(board) || kb.canMove(board) || qb.canMove(board))) {
+                System.out.println("Game is over");
+                break;
+            }
+            //white step
+            while (Arrays.deepEquals(board, tempBoard)) {
+                int rand = r.nextInt(6);
+                int rand2 = 0;
+                switch (rand) {
+                    case 0:
+                        rand2 = r.nextInt(8);
+                        if (pw[rand2].canMove(board)) {
+                            pw[rand2].move(board);
+                            break;
+                        }
+                    case 1:
+                        rand2 = r.nextInt(2);
+                        if (bw[rand2].canMove(board)) {
+                            bw[rand2].move(board);
+                            break;
+                        }
+                    case 2:
+                        rand2 = r.nextInt(2);
+                        if (rw[rand2].canMove(board)) {
+                            rw[rand2].move(board);
+                            break;
+                        }
+                    case 3:
+                        rand2 = r.nextInt(2);
+                        if (cw[rand2].canMove(board)) {
+                            cw[rand2].move(board);
+                            break;
+                        }
+                    case 4:
+                        if (kw.canMove(board)) {
+                            kw.move(board);
+                            break;
+                        }
+                    case 5:
+                        if (qw.canMove(board)) {
+                            qw.move(board);
+                            break;
+                        }
+                }
+            }
+            showBoard(board);
+            tempBoard = fillTempBoard(board, getSizeX(), getSizeY());
+
+            if (!(pw[0].canMove(board) || pw[1].canMove(board) || pw[2].canMove(board) || pw[3].canMove(board)
+                    || pw[4].canMove(board) || pw[5].canMove(board) || pw[6].canMove(board) || pw[7].canMove(board)
+                    || bw[0].canMove(board) || bw[1].canMove(board) || rw[0].canMove(board) || rw[1].canMove(board)
+                    || cw[0].canMove(board) || cw[1].canMove(board) || kw.canMove(board) || qw.canMove(board))) {
+                System.out.println("Game is over");
+                break;
+            }
+
+            if (!(pb[0].canMove(board) || pb[1].canMove(board) || pb[2].canMove(board) || pb[3].canMove(board)
+                    || pb[4].canMove(board) || pb[5].canMove(board) || pb[6].canMove(board) || pb[7].canMove(board)
+                    || bb[0].canMove(board) || bb[1].canMove(board) || rb[0].canMove(board) || rb[1].canMove(board)
+                    || cb[0].canMove(board) || cb[1].canMove(board) || kb.canMove(board) || qb.canMove(board))) {
+                System.out.println("Game is over");
+                break;
+            }
+            //black step
+            while (Arrays.deepEquals(tempBoard, board)) {
+                int rand = r.nextInt(6);
+                switch (rand) {
+                    case 0:
+                        int rand2 = r.nextInt(8);
+                        if (pb[rand2].canMove(board)) {
+                            pb[rand2].move(board);
+                            break;
+                        }
+                    case 1:
+                        rand2 = r.nextInt(2);
+                        if (bb[rand2].canMove(board)) {
+                            bb[rand2].move(board);
+                            break;
+                        }
+                    case 2:
+                        rand2 = r.nextInt(2);
+                        if (rb[rand2].canMove(board)) {
+                            rb[rand2].move(board);
+                            break;
+                        }
+                    case 3:
+                        rand2 = r.nextInt(2);
+                        if (cb[rand2].canMove(board)) {
+                            cb[rand2].move(board);
+                            break;
+                        }
+                    case 4:
+                        if (kb.canMove(board)) {
+                            kb.move(board);
+                            break;
+                        }
+                    case 5:
+                        if (qb.canMove(board)) {
+                            qb.move(board);
+                            break;
+                        }
+                }
+            }
+            showBoard(board);
+            tempBoard = fillTempBoard(board, getSizeX(), getSizeY());
+
+
+
+            if (!(pw[0].canMove(board) || pw[1].canMove(board) || pw[2].canMove(board) || pw[3].canMove(board)
+                    || pw[4].canMove(board) || pw[5].canMove(board) || pw[6].canMove(board) || pw[7].canMove(board)
+                    || bw[0].canMove(board) || bw[1].canMove(board) || rw[0].canMove(board) || rw[1].canMove(board)
+                    || cw[0].canMove(board) || cw[1].canMove(board) || kw.canMove(board) || qw.canMove(board))) {
+                System.out.println("Game is over");
+                break;
+            }
+
+            if (!(pb[0].canMove(board) || pb[1].canMove(board) || pb[2].canMove(board) || pb[3].canMove(board)
+                    || pb[4].canMove(board) || pb[5].canMove(board) || pb[6].canMove(board) || pb[7].canMove(board)
+                    || bb[0].canMove(board) || bb[1].canMove(board) || rb[0].canMove(board) || rb[1].canMove(board)
+                    || cb[0].canMove(board) || cb[1].canMove(board) || kb.canMove(board) || qb.canMove(board))) {
+                System.out.println("Game is over");
+                break;
+            }
+        }
 
 
 
 
+    }
+
+    String[][] fillTempBoard(String[][] board, int sizeX, int sizeY) {
+        String[][] tempBoard = new String[sizeX][sizeY];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                tempBoard[i][j] = board[i][j];
+            }
+        }
+        return tempBoard;
     }
 
     void showBoard(String[][] board) {
@@ -205,25 +348,27 @@ class Pawn extends Figure {
     @Override
     boolean canMove(String[][] board) {
         String a = isWhite() ? "true" : "false";
-        if (isWhite() && getX() == 0) {
-            System.out.println("Ходы у данной пешки закончились");
-            return false;
-        } else if ((isWhite()) && getX() == 7) {
-            System.out.println("Ходы у данной пешки закончились");
-            return false;
-        }
         switch (a) {
             case "true":
-                if (getX() > 0) {
-                    return board[getX() - 1][getY()] == "-"
-                            || (getY() > 0 && board[getX() - 1][getY() - 1] != "-" && board[getX() - 1][getY() - 1] != "PW")
-                            || (getY() < 7 && board[getX() - 1][getY() + 1] != "-" && board[getX() - 1][getY() + 1] != "PW");
+                if (getX() == 0) {
+                    return false;
+                }
+                if (!board[getX() - 1][getY()].equals("-") && board[getX() - 1][getY()].charAt(1) == 'W') return false;
+                if (getX() > 0 && getType().equals(board[getX()][getY()])) {
+                    return ("-".equals(board[getX() - 1][getY()]))
+                            || (getY() > 0 && !board[getX() - 1][getY() - 1].equals("-") && !board[getX() - 1][getY() - 1].equals("PW"))
+                            || (getY() < 7 && !board[getX() - 1][getY() + 1].equals("-") && !board[getX() - 1][getY() + 1].equals("PW"));
                 }
             case "false":
-                if (getX() < 7) {
-                    return board[getX() + 1][getY()] == "-"
-                            || (getY() > 0 && board[getX() + 1][getY() - 1] != "-" && board[getX() + 1][getY() - 1] != "PB")
-                            || (getY() < 7 && board[getX() + 1][getY() + 1] != "-" && board[getX() + 1][getY() + 1] != "PB");
+                if (getX() == 7) {
+                    return false;
+                }
+                if (!board[getX() + 1][getY()].equals("-") && board[getX() + 1][getY()].charAt(1) == 'B') return false;
+
+                if (getX() < 7 && board[getX()][getY()].equals(getType())) {
+                    return ("-".equals(board[getX() + 1][getY()]))
+                            || (getY() > 0 && !board[getX() + 1][getY() - 1].equals("-") && !board[getX() + 1][getY() - 1].equals("PB"))
+                            || (getY() < 7 && !board[getX() + 1][getY() + 1].equals("-") && !board[getX() + 1][getY() + 1].equals("PB"));
                 }
         }
         return false;
@@ -239,7 +384,7 @@ class Pawn extends Figure {
                 int rand = r.nextInt(3);
                 switch (rand) {
                     case 0:
-                        if (board[getX() - 1][getY()] == "-") {
+                        if (getX() > 0 && (!board[getX() - 1][getY()].equals("-") && board[getX() - 1][getY()].charAt(1) != 'W') || board[getX() - 1][getY()].equals("-")) {
                             board[getX() - 1][getY()] = getType();
                             board[getX()][getY()] = "-";
                             setX(getX() - 1);
@@ -247,7 +392,7 @@ class Pawn extends Figure {
                             return board;
                         }
                     case 1:
-                        if (getY() > 0 && board[getX() - 1][getY() - 1] != "-" && board[getX() - 1][getY() - 1] != "PW") {
+                        if (getY() > 0 && getX() > 0 && !board[getX() - 1][getY() - 1].equals("-") && board[getX() - 1][getY() - 1].charAt(1) == 'B') {
                             board[getX() - 1][getY() - 1] = getType();
                             board[getX()][getY()] = "-";
                             setX(getX() - 1);
@@ -255,7 +400,7 @@ class Pawn extends Figure {
                             return board;
                         }
                     case 2:
-                        if (getY() < 7 && board[getX() - 1][getY() + 1] != "-" && board[getX() - 1][getY() + 1] != "PW") {
+                        if (getY() < 7 && getX() > 0 && !board[getX() - 1][getY() + 1].equals("-") && board[getX() - 1][getY() + 1].charAt(1) == 'B') {
                             board[getX() - 1][getY() + 1] = getType();
                             board[getX()][getY()] = "-";
                             setX(getX() - 1);
@@ -271,7 +416,7 @@ class Pawn extends Figure {
                 int rand = r.nextInt(3);
                 switch (rand) {
                     case 0:
-                        if (board[getX() + 1][getY()] == "-") {
+                        if (getX() < 7 && (!board[getX() + 1][getY()].equals("-") && board[getX() + 1][getY()].charAt(1) != 'B') || board[getX() + 1][getY()].equals("-")) {
                             board[getX() + 1][getY()] = "PB";
                             board[getX()][getY()] = "-";
                             setX(getX() + 1);
@@ -279,16 +424,16 @@ class Pawn extends Figure {
                             return board;
                         }
                     case 1:
-                        if (getY() > 0 && board[getX() - 1][getY() - 1] != "-" && board[getX() + 1][getY() - 1] != "PW") {
-                            board[getX() + 1][getY() - 1] = "PW";
+                        if (getY() > 0 && getX() < 7 && !("-".equals(board[getX() + 1][getY() - 1])) && board[getX() + 1][getY() - 1].charAt(1) == 'W') {
+                            board[getX() + 1][getY() - 1] = "PB";
                             board[getX()][getY()] = "-";
                             setX(getX() + 1);
                             setY(getY() - 1);
                             return board;
                         }
                     case 2:
-                        if (getY() < 7 && board[getX() + 1][getY() + 1] != "-" && board[getX() + 1][getY() + 1] != "PW") {
-                            board[getX() - 1][getY() + 1] = "PW";
+                        if (getY() < 7 && getX() < 7 && !board[getX() + 1][getY() + 1].equals("-") && board[getX() + 1][getY() + 1].charAt(1) == 'W') {
+                            board[getX() + 1][getY() + 1] = "PB";
                             board[getX()][getY()] = "-";
                             setX(getX() + 1);
                             setY(getY() + 1);
@@ -347,6 +492,7 @@ class Bishop extends Figure {
 
     @Override
     boolean canMove(String[][] board) {
+        if (!board[getX()][getY()].equals(getType())) return false;
         String a = isWhite() ? "true" : "false";
         switch (a) {
             case "true":
@@ -394,7 +540,7 @@ class Bishop extends Figure {
                 switch (rand) {
                     case 0:
                         if (getX() - rand2 > 0 && getY() - rand2 > 0
-                                && ((board[getX() - rand2][getY() - rand2] == "-")
+                                && ((board[getX() - rand2][getY() - rand2].equals("-"))
                                 || (board[getX() - rand2][getY() - rand2].charAt(1) != 'W'))) {
                             board[getX() - rand2][getY() - rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -405,7 +551,7 @@ class Bishop extends Figure {
                         }
                     case 1:
                         if (getX() + rand2 < 7 && getY() + rand2 < 7
-                                && ((board[getX() + rand2][getY() + rand2] == "-")
+                                && ((board[getX() + rand2][getY() + rand2].equals("-"))
                                 || (board[getX() + rand2][getY() + rand2].charAt(1) != 'W'))) {
                             board[getX() + rand2][getY() + rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -416,7 +562,7 @@ class Bishop extends Figure {
                         }
                     case 2:
                         if (getX() + rand2 < 7 && getY() - rand2 > 0
-                                && ((board[getX() + rand2][getY() - rand2] == "-")
+                                && ((board[getX() + rand2][getY() - rand2].equals("-"))
                                 || (board[getX() + rand2][getY() - rand2].charAt(1) != 'W'))) {
                             board[getX() + rand2][getY() - rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -427,7 +573,7 @@ class Bishop extends Figure {
                         }
                     case 3:
                         if (getX() - rand2 > 0 && getY() + rand2 < 7
-                                && ((board[getX() - rand2][getY() + rand2] == "-")
+                                && ((board[getX() - rand2][getY() + rand2].equals("-"))
                                 || (board[getX() - rand2][getY() + rand2].charAt(1) != 'W'))) {
                             board[getX() - rand2][getY() + rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -448,7 +594,7 @@ class Bishop extends Figure {
                 switch (rand) {
                     case 0:
                         if (getX() - rand2 > 0 && getY() - rand2 > 0
-                                && ((board[getX() - rand2][getY() - rand2] == "-")
+                                && ((board[getX() - rand2][getY() - rand2].equals("-"))
                                 || (board[getX() - rand2][getY() - rand2].charAt(1) != 'W'))) {
                             board[getX() - rand2][getY() - rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -458,7 +604,7 @@ class Bishop extends Figure {
                         }
                     case 1:
                         if (getX() + rand2 < 7 && getY() + rand2 < 7
-                                && ((board[getX() + rand2][getY() + rand2] == "-")
+                                && ((board[getX() + rand2][getY() + rand2].equals("-"))
                                 || (board[getX() + rand2][getY() + rand2].charAt(1) != 'W'))) {
                             board[getX() + rand2][getY() + rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -468,7 +614,7 @@ class Bishop extends Figure {
                         }
                     case 2:
                         if (getX() + rand2 < 7 && getY() - rand2 > 0
-                                && ((board[getX() + rand2][getY() - rand2] == "-")
+                                && ((board[getX() + rand2][getY() - rand2].equals("-"))
                                 || (board[getX() + rand2][getY() - rand2].charAt(1) != 'W'))) {
                             board[getX() + rand2][getY() - rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -478,7 +624,7 @@ class Bishop extends Figure {
                         }
                     case 3:
                         if (getX() - rand2 > 0 && getY() + rand2 < 7
-                                && ((board[getX() - rand2][getY() + rand2] == "-")
+                                && ((board[getX() - rand2][getY() + rand2].equals("-"))
                                 || (board[getX() - rand2][getY() + rand2].charAt(1) != 'W'))) {
                             board[getX() - rand2][getY() + rand2] = getType();
                             board[getX()][getY()] = "-";
@@ -548,6 +694,7 @@ class Rook extends Figure {
 
     @Override
     boolean canMove(String[][] board) {
+        if (!board[getX()][getY()].equals(getType())) return false;
         if (isWhite()) {
             for (int i = 0; i < STEPS.length; i++) {
                 if (getX() + STEPS[i][0] < 7 && getX() + STEPS[i][0] > 0 && getY() + STEPS[i][1] < 7 && getY() + STEPS[i][1] > 0
@@ -555,8 +702,8 @@ class Rook extends Figure {
                         || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'B')) {
                     return true;
                 }
-                return false;
             }
+            return false;
         } else if (!(isWhite())) {
             for (int i = 0; i < STEPS.length; i++) {
                 if (getX() + STEPS[i][0] < 7 && getX() + STEPS[i][0] > 0 && getY() + STEPS[i][1] < 7 && getY() + STEPS[i][1] > 0
@@ -564,7 +711,6 @@ class Rook extends Figure {
                         || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'W')) {
                     return true;
                 }
-                return false;
             }
         }
         return false;
@@ -654,6 +800,7 @@ class Castle extends Figure {
 
     @Override
     boolean canMove(String[][] board) {
+        if (!board[getX()][getY()].equals(getType())) return false;
         if (isWhite()) {
             return (getX() < 7 && ("-".equals(board[getX() + 1][getY()]) || board[getX() + 1][getY()].charAt(1) == 'B'))
                     || (getX() > 0 && ("-".equals(board[getX() - 1][getY()]) || board[getX() - 1][getY()].charAt(1) == 'B'))
@@ -806,8 +953,8 @@ class King extends Figure {
                         || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'B')) {
                     return true;
                 }
-                return false;
             }
+            return false;
         } else if (!(isWhite())) {
             for (int i = 0; i < STEPS.length; i++) {
                 if (getX() + STEPS[i][0] < 7 && getX() + STEPS[i][0] > 0 && getY() + STEPS[i][1] < 7 && getY() + STEPS[i][1] > 0
@@ -815,7 +962,6 @@ class King extends Figure {
                         || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'W')) {
                     return true;
                 }
-                return false;
             }
         }
         return false;
@@ -911,8 +1057,8 @@ class Queen extends Figure {
                         || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'B')) {
                     return true;
                 }
-                return false;
             }
+            return false;
         } else if (!(isWhite())) {
             for (int i = 0; i < STEPS.length; i++) {
                 if (getX() + STEPS[i][0] < 7 && getX() + STEPS[i][0] > 0 && getY() + STEPS[i][1] < 7 && getY() + STEPS[i][1] > 0
@@ -920,7 +1066,6 @@ class Queen extends Figure {
                         || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'W')) {
                     return true;
                 }
-                return false;
             }
         }
         return false;
