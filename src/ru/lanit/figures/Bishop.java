@@ -1,9 +1,11 @@
 package ru.lanit.figures;
 
+import ru.lanit.board.ChessBoard;
+
 import java.util.Random;
 
 public class Bishop extends Figure {
-    Random r = new Random();
+    private Random random = new Random();
 
     public Bishop(boolean isWhite) {
         setWhite(isWhite);
@@ -17,27 +19,27 @@ public class Bishop extends Figure {
     @Override
     public String[][] fillBoard(String[][] board) {
         if (isWhite()) {
-            if ("-".equals(board[7][2])) {
+            if (ChessBoard.emptyCell.equals(board[7][2])) {
                 board[7][2] = getType();
-                setX(7);
-                setY(2);
+                setCol(7);
+                setRow(2);
                 return board;
-            } else if ("-".equals(board[7][5])) {
+            } else if (ChessBoard.emptyCell.equals(board[7][5])) {
                 board[7][5] = getType();
-                setX(7);
-                setY(5);
+                setCol(7);
+                setRow(5);
                 return board;
             }
-        } else if (!(isWhite())) {
-            if ("-".equals(board[0][2])) {
+        } else {
+            if (ChessBoard.emptyCell.equals(board[0][2])) {
                 board[0][2] = getType();
-                setX(0);
-                setY(2);
+                setCol(0);
+                setRow(2);
                 return board;
-            } else if ("-".equals(board[0][5])) {
+            } else if (ChessBoard.emptyCell.equals(board[0][5])) {
                 board[0][5] = getType();
-                setX(0);
-                setY(5);
+                setCol(0);
+                setRow(5);
                 return board;
             }
         }
@@ -47,37 +49,34 @@ public class Bishop extends Figure {
 
     @Override
     public boolean canMove(String[][] board) {
-        if (!board[getX()][getY()].equals(getType())) return false;
-        String a = isWhite() ? "true" : "false";
-        switch (a) {
-            case "true":
-                if (getX() < 7 && getY() < 7) {
-                    return "-".equals(board[getX() + 1][getY() + 1])
-                            || (board[getX() + 1][getY() + 1].charAt(1)) != 'W';
-                } else if (getX() > 0 && getY() > 0) {
-                    return "-".equals(board[getX() - 1][getY() - 1])
-                            || (board[getX() - 1][getY() - 1].charAt(1)) != 'W';
-                } else if (getX() > 0 && getY() < 7) {
-                    return "-".equals(board[getX() - 1][getY() + 1])
-                            || (board[getX() - 1][getY() + 1].charAt(1)) != 'W';
-                } else if (getX() < 7 && getY() > 0) {
-                    return "-".equals(board[getX() + 1][getY() - 1])
-                            || (board[getX() + 1][getY() - 1].charAt(1)) != 'W';
-                }
-                break;
-            case "false":
-                if (getX() < 7 && getY() < 7) {
-                    return "-".equals(board[getX() + 1][getY() + 1])
-                            || (board[getX() + 1][getY() + 1].charAt(1)) != 'B';
-                } else if (getX() > 0 && getY() > 0) {
-                    return "-".equals(board[getX() - 1][getY() - 1])
-                            || (board[getX() - 1][getY() - 1].charAt(1)) != 'B';
-                } else if (getX() > 0 && getY() < 7) {
-                    return "-".equals(board[getX() - 1][getY() + 1])
-                            || (board[getX() - 1][getY() + 1].charAt(1)) != 'B';
-                } else if (getX() < 7 && getY() > 0) {
-                    return "-".equals(board[getX() + 1][getY() - 1])
-                            || (board[getX() + 1][getY() - 1].charAt(1)) != 'B';
+        if (!board[getCol()][getRow()].equals(getType())) return false;
+        if (isWhite()) {
+            if (getCol() < 7 && getRow() < 7) {
+                return ChessBoard.emptyCell.equals(board[getCol() + 1][getRow() + 1])
+                        || (board[getCol() + 1][getRow() + 1].charAt(1)) != ChessBoard.whiteFigureCell;
+            } else if (getCol() > 0 && getRow() > 0) {
+                return ChessBoard.emptyCell.equals(board[getCol() - 1][getRow() - 1])
+                        || (board[getCol() - 1][getRow() - 1].charAt(1)) != ChessBoard.whiteFigureCell;
+            } else if (getCol() > 0 && getRow() < 7) {
+                return ChessBoard.emptyCell.equals(board[getCol() - 1][getRow() + 1])
+                        || (board[getCol() - 1][getRow() + 1].charAt(1)) != ChessBoard.whiteFigureCell;
+            } else if (getCol() < 7 && getRow() > 0) {
+                return ChessBoard.emptyCell.equals(board[getCol() + 1][getRow() - 1])
+                        || (board[getCol() + 1][getRow() - 1].charAt(1)) != ChessBoard.whiteFigureCell;
+            }
+        } else {
+                if (getCol() < 7 && getRow() < 7) {
+                    return ChessBoard.emptyCell.equals(board[getCol() + 1][getRow() + 1])
+                            || (board[getCol() + 1][getRow() + 1].charAt(1)) != ChessBoard.blackFigureCell;
+                } else if (getCol() > 0 && getRow() > 0) {
+                    return ChessBoard.emptyCell.equals(board[getCol() - 1][getRow() - 1])
+                            || (board[getCol() - 1][getRow() - 1].charAt(1)) != ChessBoard.blackFigureCell;
+                } else if (getCol() > 0 && getRow() < 7) {
+                    return ChessBoard.emptyCell.equals(board[getCol() - 1][getRow() + 1])
+                            || (board[getCol() - 1][getRow() + 1].charAt(1)) != ChessBoard.blackFigureCell;
+                } else if (getCol() < 7 && getRow() > 0) {
+                    return ChessBoard.emptyCell.equals(board[getCol() + 1][getRow() - 1])
+                            || (board[getCol() + 1][getRow() - 1].charAt(1)) != ChessBoard.blackFigureCell;
                 }
         }
         return false;
@@ -87,109 +86,89 @@ public class Bishop extends Figure {
     public String[][] move(String[][] board) {
         if (!(canMove(board))) return board;
         if (isWhite()) {
-            int getX2 = getX();
-            int getY2 = getY();
-            while (getX2 == getX() && getY2 == getY()) {
-                int rand = 0;
-                int rand2 = r.nextInt(8);
-                switch (rand) {
-                    case 0:
-                        if (getX() - rand2 > 0 && getY() - rand2 > 0
-                                && ((board[getX() - rand2][getY() - rand2].equals("-"))
-                                || (board[getX() - rand2][getY() - rand2].charAt(1) != 'W'))) {
-                            board[getX() - rand2][getY() - rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() - rand2);
-                            setY(getY() - rand2);
+            int cloneCol = getCol();
+            int cloneRow = getRow();
+            while (cloneCol == getCol() && cloneRow == getRow()) {
+                int rand = random.nextInt(8);
+                        if (getCol() - rand > 0 && getRow() - rand > 0
+                                && ((board[getCol() - rand][getRow() - rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() - rand][getRow() - rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() - rand][getRow() - rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() - rand);
+                            setRow(getRow() - rand);
                             System.out.println(0);
                             return board;
-                        }
-                    case 1:
-                        if (getX() + rand2 < 7 && getY() + rand2 < 7
-                                && ((board[getX() + rand2][getY() + rand2].equals("-"))
-                                || (board[getX() + rand2][getY() + rand2].charAt(1) != 'W'))) {
-                            board[getX() + rand2][getY() + rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() + rand2);
-                            setY(getY() + rand2);
+                        } else if (getCol() + rand < 7 && getRow() + rand < 7
+                                && ((board[getCol() + rand][getRow() + rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() + rand][getRow() + rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() + rand][getRow() + rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() + rand);
+                            setRow(getRow() + rand);
                             System.out.println(1);
                             return board;
-                        }
-                    case 2:
-                        if (getX() + rand2 < 7 && getY() - rand2 > 0
-                                && ((board[getX() + rand2][getY() - rand2].equals("-"))
-                                || (board[getX() + rand2][getY() - rand2].charAt(1) != 'W'))) {
-                            board[getX() + rand2][getY() - rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() + rand2);
-                            setY(getY() - rand2);
+                        } else if (getCol() + rand < 7 && getRow() - rand > 0
+                                && ((board[getCol() + rand][getRow() - rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() + rand][getRow() - rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() + rand][getRow() - rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() + rand);
+                            setRow(getRow() - rand);
                             System.out.println(2);
                             return board;
-                        }
-                    case 3:
-                        if (getX() - rand2 > 0 && getY() + rand2 < 7
-                                && ((board[getX() - rand2][getY() + rand2].equals("-"))
-                                || (board[getX() - rand2][getY() + rand2].charAt(1) != 'W'))) {
-                            board[getX() - rand2][getY() + rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() - rand2);
-                            setY(getY() + rand2);
+                        }else if (getCol() - rand > 0 && getRow() + rand < 7
+                                && ((board[getCol() - rand][getRow() + rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() - rand][getRow() + rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() - rand][getRow() + rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() - rand);
+                            setRow(getRow() + rand);
                             System.out.println(3);
                             return board;
                         }
-                }
             }
 
-        } else if (!(isWhite())) {
-            int getX2 = getX();
-            int getY2 = getY();
-            while (getX2 == getX() && getY2 == getY()) {
-                int rand = 0;
-                int rand2 = r.nextInt(8);
-                switch (rand) {
-                    case 0:
-                        if (getX() - rand2 > 0 && getY() - rand2 > 0
-                                && ((board[getX() - rand2][getY() - rand2].equals("-"))
-                                || (board[getX() - rand2][getY() - rand2].charAt(1) != 'W'))) {
-                            board[getX() - rand2][getY() - rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() - rand2);
-                            setY(getY() - rand2);
+        } else {
+            int cloneCol = getCol();
+            int cloneRow = getRow();
+            while (cloneCol == getCol() && cloneRow == getRow()) {
+                int rand = random.nextInt(8);
+                        if (getCol() - rand > 0 && getRow() - rand > 0
+                                && ((board[getCol() - rand][getRow() - rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() - rand][getRow() - rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() - rand][getRow() - rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() - rand);
+                            setRow(getRow() - rand);
                             return board;
-                        }
-                    case 1:
-                        if (getX() + rand2 < 7 && getY() + rand2 < 7
-                                && ((board[getX() + rand2][getY() + rand2].equals("-"))
-                                || (board[getX() + rand2][getY() + rand2].charAt(1) != 'W'))) {
-                            board[getX() + rand2][getY() + rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() + rand2);
-                            setY(getY() + rand2);
+                        } else if (getCol() + rand < 7 && getRow() + rand < 7
+                                && ((board[getCol() + rand][getRow() + rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() + rand][getRow() + rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() + rand][getRow() + rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() + rand);
+                            setRow(getRow() + rand);
                             return board;
-                        }
-                    case 2:
-                        if (getX() + rand2 < 7 && getY() - rand2 > 0
-                                && ((board[getX() + rand2][getY() - rand2].equals("-"))
-                                || (board[getX() + rand2][getY() - rand2].charAt(1) != 'W'))) {
-                            board[getX() + rand2][getY() - rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() + rand2);
-                            setY(getY() - rand2);
+                        } else if (getCol() + rand < 7 && getRow() - rand > 0
+                                && ((board[getCol() + rand][getRow() - rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() + rand][getRow() - rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() + rand][getRow() - rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() + rand);
+                            setRow(getRow() - rand);
                             return board;
-                        }
-                    case 3:
-                        if (getX() - rand2 > 0 && getY() + rand2 < 7
-                                && ((board[getX() - rand2][getY() + rand2].equals("-"))
-                                || (board[getX() - rand2][getY() + rand2].charAt(1) != 'W'))) {
-                            board[getX() - rand2][getY() + rand2] = getType();
-                            board[getX()][getY()] = "-";
-                            setX(getX() - rand2);
-                            setY(getY() + rand2);
+                        } else if (getCol() - rand > 0 && getRow() + rand < 7
+                                && ((board[getCol() - rand][getRow() + rand].equals(ChessBoard.emptyCell))
+                                || (board[getCol() - rand][getRow() + rand].charAt(1) != ChessBoard.whiteFigureCell))) {
+                            board[getCol() - rand][getRow() + rand] = getType();
+                            board[getCol()][getRow()] = ChessBoard.emptyCell;
+                            setCol(getCol() - rand);
+                            setRow(getRow() + rand);
                             return board;
                         }
                 }
             }
-        }
         return board;
     }
 

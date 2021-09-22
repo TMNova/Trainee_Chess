@@ -1,9 +1,11 @@
 package ru.lanit.figures;
 
+import ru.lanit.board.ChessBoard;
+
 import java.util.Random;
 
 public class Rook extends Figure {
-    Random r = new Random();
+    Random random = new Random();
     final byte[][] STEPS = new byte[][]{
             {2, 1},
             {2, -1},
@@ -27,27 +29,27 @@ public class Rook extends Figure {
     @Override
     public String[][] fillBoard(String[][] board) {
         if (isWhite()) {
-            if ("-".equals(board[7][1])) {
+            if (ChessBoard.emptyCell.equals(board[7][1])) {
                 board[7][1] = getType();
-                setX(7);
-                setY(1);
+                setCol(7);
+                setRow(1);
                 return board;
-            } else if ("-".equals(board[7][6])) {
+            } else if (ChessBoard.emptyCell.equals(board[7][6])) {
                 board[7][6] = getType();
-                setX(7);
-                setY(6);
+                setCol(7);
+                setRow(6);
                 return board;
             }
-        } else if (!(isWhite())) {
-            if ("-".equals(board[0][1])) {
+        } else {
+            if (ChessBoard.emptyCell.equals(board[0][1])) {
                 board[0][1] = getType();
-                setX(0);
-                setY(1);
+                setCol(0);
+                setRow(1);
                 return board;
-            } else if ("-".equals(board[0][6])) {
+            } else if (ChessBoard.emptyCell.equals(board[0][6])) {
                 board[0][6] = getType();
-                setX(0);
-                setY(6);
+                setCol(0);
+                setRow(6);
                 return board;
             }
         }
@@ -56,21 +58,21 @@ public class Rook extends Figure {
 
     @Override
     public boolean canMove(String[][] board) {
-        if (!board[getX()][getY()].equals(getType())) return false;
+        if (!board[getCol()][getRow()].equals(getType())) return false;
         if (isWhite()) {
             for (int i = 0; i < STEPS.length; i++) {
-                if (getX() + STEPS[i][0] < 7 && getX() + STEPS[i][0] > 0 && getY() + STEPS[i][1] < 7 && getY() + STEPS[i][1] > 0
-                        && ("-".equals(board[getX() + STEPS[i][0]][getY() + STEPS[i][1]])
-                        || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'B')) {
+                if (getCol() + STEPS[i][0] < 7 && getCol() + STEPS[i][0] > 0 && getRow() + STEPS[i][1] < 7 && getRow() + STEPS[i][1] > 0
+                        && (ChessBoard.emptyCell.equals(board[getCol() + STEPS[i][0]][getRow() + STEPS[i][1]])
+                        || (board[getCol() + STEPS[i][0]][getRow() + STEPS[i][1]]).charAt(1) == ChessBoard.blackFigureCell)) {
                     return true;
                 }
             }
             return false;
-        } else if (!(isWhite())) {
+        } else {
             for (int i = 0; i < STEPS.length; i++) {
-                if (getX() + STEPS[i][0] < 7 && getX() + STEPS[i][0] > 0 && getY() + STEPS[i][1] < 7 && getY() + STEPS[i][1] > 0
-                        && ("-".equals(board[getX() + STEPS[i][0]][getY() + STEPS[i][1]])
-                        || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'W')) {
+                if (getCol() + STEPS[i][0] < 7 && getCol() + STEPS[i][0] > 0 && getRow() + STEPS[i][1] < 7 && getRow() + STEPS[i][1] > 0
+                        && (ChessBoard.emptyCell.equals(board[getCol() + STEPS[i][0]][getRow() + STEPS[i][1]])
+                        || (board[getCol() + STEPS[i][0]][getRow() + STEPS[i][1]]).charAt(1) == ChessBoard.whiteFigureCell)) {
                     return true;
                 }
             }
@@ -81,34 +83,34 @@ public class Rook extends Figure {
     @Override
     public String[][] move(String[][] board) {
         if (isWhite() && canMove(board)) {
-            int getX2 = getX();
-            int getY2 = getY();
-            while (getX2 == getX() && getY2 == getY()) {
-                int i = r.nextInt(8);
-                if ((getX() + STEPS[i][0] > 0 && getX() + STEPS[i][0] < 7
-                        && getY() + STEPS[i][1] > 0 && getY() + STEPS[i][1] < 7)
-                        && ("-".equals(board[getX() + STEPS[i][0]][getY() + STEPS[i][1]])
-                        || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'B')) {
-                    board[getX() + STEPS[i][0]][getY() + STEPS[i][1]] = getType();
-                    board[getX()][getY()] = "-";
-                    setX(getX() + STEPS[i][0]);
-                    setY(getY() + STEPS[i][1]);
+            int cloneCol = getCol();
+            int cloneRow = getRow();
+            while (cloneCol == getCol() && cloneRow == getRow()) {
+                int colSteps = random.nextInt(8);
+                if ((getCol() + STEPS[colSteps][0] > 0 && getCol() + STEPS[colSteps][0] < 7
+                        && getRow() + STEPS[colSteps][1] > 0 && getRow() + STEPS[colSteps][1] < 7)
+                        && (ChessBoard.emptyCell.equals(board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]])
+                        || (board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]]).charAt(1) == ChessBoard.blackFigureCell)) {
+                    board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]] = getType();
+                    board[getCol()][getRow()] = ChessBoard.emptyCell;
+                    setCol(getCol() + STEPS[colSteps][0]);
+                    setRow(getRow() + STEPS[colSteps][1]);
                     return board;
                 }
             }
         } else if (!(isWhite()) && canMove(board)) {
-            int getX2 = getX();
-            int getY2 = getY();
-            while (getX2 == getX() && getY2 == getY()) {
-                int i = r.nextInt(8);
-                if ((getX() + STEPS[i][0] > 0 && getX() + STEPS[i][0] < 7
-                        && getY() + STEPS[i][1] > 0 && getY() + STEPS[i][1] < 7)
-                        && ("-".equals(board[getX() + STEPS[i][0]][getY() + STEPS[i][1]])
-                        || (board[getX() + STEPS[i][0]][getY() + STEPS[i][1]]).charAt(1) == 'W')) {
-                    board[getX() + STEPS[i][0]][getY() + STEPS[i][1]] = getType();
-                    board[getX()][getY()] = "-";
-                    setX(getX() + STEPS[i][0]);
-                    setY(getY() + STEPS[i][1]);
+            int cloneCol = getCol();
+            int cloneRow = getRow();
+            while (cloneCol == getCol() && cloneRow == getRow()) {
+                int colSteps = random.nextInt(8);
+                if ((getCol() + STEPS[colSteps][0] > 0 && getCol() + STEPS[colSteps][0] < 7
+                        && getRow() + STEPS[colSteps][1] > 0 && getRow() + STEPS[colSteps][1] < 7)
+                        && (ChessBoard.emptyCell.equals(board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]])
+                        || (board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]]).charAt(1) == ChessBoard.whiteFigureCell)) {
+                    board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]] = getType();
+                    board[getCol()][getRow()] = ChessBoard.emptyCell;
+                    setCol(getCol() + STEPS[colSteps][0]);
+                    setRow(getRow() + STEPS[colSteps][1]);
                     return board;
                 }
             }

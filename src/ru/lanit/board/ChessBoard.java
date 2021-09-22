@@ -5,251 +5,188 @@ import java.util.Random;
 import ru.lanit.figures.*;
 
 public class ChessBoard {
-    private int sizeX;
-    private int sizeY;
     private String[][] board;
+    private Pawn[] pawnWhite = new Pawn[8];
+    private Pawn[] pawnBlack = new Pawn[8];
+    private Bishop[] bishopWhite = new Bishop[2];
+    private Bishop[] bishopBlack = new Bishop[2];
+    private Rook[] rookWhite = new Rook[2];
+    private Rook[] rookBlack = new Rook[2];
+    private Castle[] castleWhite = new Castle[2];
+    private Castle[] castleBlack = new Castle[2];
+    private King kingWhite = new King(true);
+    private King kingBlack = new King(false);
+    private Queen queenWhite = new Queen(true);
+    private Queen queenBlack = new Queen(false);
+    private String[][] cloneChessBoard;
+    private Random random = new Random();
+    public static final String emptyCell = "-";
+    public static final char whiteFigureCell = 'W';
+    public static final char blackFigureCell = 'B';
 
-    public ChessBoard(int sizeX, int sizeY) {
-        setSizeX(sizeX);
-        setSizeY(sizeY);
-        board = new String[sizeX][sizeY];
+
+    public ChessBoard() {
+        board = new String[8][8];
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
-                board[i][j] = "-";
+                board[i][j] = emptyCell;
             }
         }
     }
 
-    void setSizeX(int sizeX) {
-        this.sizeX = sizeX;
+    private void fillBoardFigures(String[][] board) {
+        for (int i = 0; i < pawnWhite.length; i++) {
+            pawnWhite[i] = new Pawn(true);
+            pawnWhite[i].fillBoard(board);
+            pawnBlack[i] = new Pawn(false);
+            pawnBlack[i].fillBoard(board);
+        }
+        for (int i = 0; i < bishopWhite.length; i++) {
+            bishopWhite[i] = new Bishop(true);
+            bishopWhite[i].fillBoard(board);
+            bishopBlack[i] = new Bishop(false);
+            bishopBlack[i].fillBoard(board);
+            rookWhite[i] = new Rook(true);
+            rookWhite[i].fillBoard(board);
+            rookBlack[i] = new Rook(false);
+            rookBlack[i].fillBoard(board);
+            castleWhite[i] = new Castle(true);
+            castleWhite[i].fillBoard(board);
+            castleBlack[i] = new Castle(false);
+            castleBlack[i].fillBoard(board);
+        }
+        kingWhite.fillBoard(board);
+        kingBlack.fillBoard(board);
+        queenWhite.fillBoard(board);
+        queenBlack.fillBoard(board);
+        
     }
 
-    int getSizeX() {
-        return sizeX;
+
+    public void createAndFillChessBoard() {
+        fillBoardFigures(board);
+        cloneChessBoard = cloneBoard(board);
     }
 
-    void setSizeY(int sizeY) {
-        this.sizeY = sizeY;
-    }
-
-    int getSizeY() {
-        return sizeY;
-    }
-
-    public void create() {
-        Random r = new Random();
-
-        Pawn[] pw = new Pawn[8];
-        for (int i = 0; i < pw.length; i++) {
-            pw[i] = new Pawn(true);
-            pw[i].fillBoard(board);
-        }
-        Pawn[] pb = new Pawn[8];
-        for (int i = 0; i < pb.length; i++) {
-            pb[i] = new Pawn(false);
-            pb[i].fillBoard(board);
-        }
-
-        Bishop[] bw = new Bishop[2];
-        for (int i = 0; i < bw.length; i++) {
-            bw[i] = new Bishop(true);
-            bw[i].fillBoard(board);
-        }
-        Bishop[] bb = new Bishop[2];
-        for (int i = 0; i < bb.length; i++) {
-            bb[i] = new Bishop(false);
-            bb[i].fillBoard(board);
-        }
-
-        Rook[] rw = new Rook[2];
-        for (int i = 0; i < rw.length; i++) {
-            rw[i] = new Rook(true);
-            rw[i].fillBoard(board);
-        }
-        Rook[] rb = new Rook[2];
-        for (int i = 0; i < rb.length; i++) {
-            rb[i] = new Rook(false);
-            rb[i].fillBoard(board);
-        }
-
-        Castle[] cw = new Castle[2];
-        for (int i = 0; i < cw.length; i++) {
-            cw[i] = new Castle(true);
-            cw[i].fillBoard(board);
-        }
-        Castle[] cb = new Castle[2];
-        for (int i = 0; i < cb.length; i++) {
-            cb[i] = new Castle(false);
-            cb[i].fillBoard(board);
-        }
-
-        King kw = new King(true);
-        kw.fillBoard(board);
-        King kb = new King(false);
-        kb.fillBoard(board);
-
-        Queen qw = new Queen(true);
-        qw.fillBoard(board);
-        Queen qb = new Queen(false);
-        qb.fillBoard(board);
-
-        String[][] tempBoard = fillTempBoard(board, getSizeX(), getSizeY());
-
-        int it = 0;
-
-
-        //simulating game
+    public void playChess() {
         while (true) {
-            if (!(pw[0].canMove(board) || pw[1].canMove(board) || pw[2].canMove(board) || pw[3].canMove(board)
-                    || pw[4].canMove(board) || pw[5].canMove(board) || pw[6].canMove(board) || pw[7].canMove(board)
-                    || bw[0].canMove(board) || bw[1].canMove(board) || rw[0].canMove(board) || rw[1].canMove(board)
-                    || cw[0].canMove(board) || cw[1].canMove(board) || kw.canMove(board) || qw.canMove(board))) {
-                System.out.println("Game is over");
-                break;
-            }
-
-            if (!(pb[0].canMove(board) || pb[1].canMove(board) || pb[2].canMove(board) || pb[3].canMove(board)
-                    || pb[4].canMove(board) || pb[5].canMove(board) || pb[6].canMove(board) || pb[7].canMove(board)
-                    || bb[0].canMove(board) || bb[1].canMove(board) || rb[0].canMove(board) || rb[1].canMove(board)
-                    || cb[0].canMove(board) || cb[1].canMove(board) || kb.canMove(board) || qb.canMove(board))) {
-                System.out.println("Game is over");
-                break;
-            }
-            //white step
-            while (Arrays.deepEquals(board, tempBoard)) {
-                int rand = r.nextInt(6);
-                int rand2 = 0;
-                switch (rand) {
-                    case 0:
-                        rand2 = r.nextInt(8);
-                        if (pw[rand2].canMove(board)) {
-                            pw[rand2].move(board);
-                            break;
-                        }
-                    case 1:
-                        rand2 = r.nextInt(2);
-                        if (bw[rand2].canMove(board)) {
-                            bw[rand2].move(board);
-                            break;
-                        }
-                    case 2:
-                        rand2 = r.nextInt(2);
-                        if (rw[rand2].canMove(board)) {
-                            rw[rand2].move(board);
-                            break;
-                        }
-                    case 3:
-                        rand2 = r.nextInt(2);
-                        if (cw[rand2].canMove(board)) {
-                            cw[rand2].move(board);
-                            break;
-                        }
-                    case 4:
-                        if (kw.canMove(board)) {
-                            kw.move(board);
-                            break;
-                        }
-                    case 5:
-                        if (qw.canMove(board)) {
-                            qw.move(board);
-                            break;
-                        }
-                }
-            }
+            stepWhiteFigures();
             showBoard(board);
-            tempBoard = fillTempBoard(board, getSizeX(), getSizeY());
+            cloneChessBoard = cloneBoard(board);
+            if (cantMove()) break;
 
-            if (!(pw[0].canMove(board) || pw[1].canMove(board) || pw[2].canMove(board) || pw[3].canMove(board)
-                    || pw[4].canMove(board) || pw[5].canMove(board) || pw[6].canMove(board) || pw[7].canMove(board)
-                    || bw[0].canMove(board) || bw[1].canMove(board) || rw[0].canMove(board) || rw[1].canMove(board)
-                    || cw[0].canMove(board) || cw[1].canMove(board) || kw.canMove(board) || qw.canMove(board))) {
-                System.out.println("Game is over");
-                break;
-            }
-
-            if (!(pb[0].canMove(board) || pb[1].canMove(board) || pb[2].canMove(board) || pb[3].canMove(board)
-                    || pb[4].canMove(board) || pb[5].canMove(board) || pb[6].canMove(board) || pb[7].canMove(board)
-                    || bb[0].canMove(board) || bb[1].canMove(board) || rb[0].canMove(board) || rb[1].canMove(board)
-                    || cb[0].canMove(board) || cb[1].canMove(board) || kb.canMove(board) || qb.canMove(board))) {
-                System.out.println("Game is over");
-                break;
-            }
-            //black step
-            while (Arrays.deepEquals(tempBoard, board)) {
-                int rand = r.nextInt(6);
-                switch (rand) {
-                    case 0:
-                        int rand2 = r.nextInt(8);
-                        if (pb[rand2].canMove(board)) {
-                            pb[rand2].move(board);
-                            break;
-                        }
-                    case 1:
-                        rand2 = r.nextInt(2);
-                        if (bb[rand2].canMove(board)) {
-                            bb[rand2].move(board);
-                            break;
-                        }
-                    case 2:
-                        rand2 = r.nextInt(2);
-                        if (rb[rand2].canMove(board)) {
-                            rb[rand2].move(board);
-                            break;
-                        }
-                    case 3:
-                        rand2 = r.nextInt(2);
-                        if (cb[rand2].canMove(board)) {
-                            cb[rand2].move(board);
-                            break;
-                        }
-                    case 4:
-                        if (kb.canMove(board)) {
-                            kb.move(board);
-                            break;
-                        }
-                    case 5:
-                        if (qb.canMove(board)) {
-                            qb.move(board);
-                            break;
-                        }
-                }
-            }
+            stepBlackFigures();
             showBoard(board);
-            tempBoard = fillTempBoard(board, getSizeX(), getSizeY());
-
-
-
-            if (!(pw[0].canMove(board) || pw[1].canMove(board) || pw[2].canMove(board) || pw[3].canMove(board)
-                    || pw[4].canMove(board) || pw[5].canMove(board) || pw[6].canMove(board) || pw[7].canMove(board)
-                    || bw[0].canMove(board) || bw[1].canMove(board) || rw[0].canMove(board) || rw[1].canMove(board)
-                    || cw[0].canMove(board) || cw[1].canMove(board) || kw.canMove(board) || qw.canMove(board))) {
-                System.out.println("Game is over");
-                break;
-            }
-
-            if (!(pb[0].canMove(board) || pb[1].canMove(board) || pb[2].canMove(board) || pb[3].canMove(board)
-                    || pb[4].canMove(board) || pb[5].canMove(board) || pb[6].canMove(board) || pb[7].canMove(board)
-                    || bb[0].canMove(board) || bb[1].canMove(board) || rb[0].canMove(board) || rb[1].canMove(board)
-                    || cb[0].canMove(board) || cb[1].canMove(board) || kb.canMove(board) || qb.canMove(board))) {
-                System.out.println("Game is over");
-                break;
-            }
+            cloneChessBoard = cloneBoard(board);
+            if (cantMove()) break;
         }
-
-
-
-
     }
 
-    String[][] fillTempBoard(String[][] board, int sizeX, int sizeY) {
-        String[][] tempBoard = new String[sizeX][sizeY];
+    private void stepWhiteFigures() {
+        while (Arrays.deepEquals(board, cloneChessBoard)) {
+            int rand = random.nextInt(6);
+            int rand2 = 0;
+            switch (rand) {
+                case 0:
+                    rand2 = random.nextInt(8);
+                    if (pawnWhite[rand2].canMove(board)) {
+                        pawnWhite[rand2].move(board);
+                        break;
+                    }
+                case 1:
+                    rand2 = random.nextInt(2);
+                    if (bishopWhite[rand2].canMove(board)) {
+                        bishopWhite[rand2].move(board);
+                        break;
+                    }
+                case 2:
+                    rand2 = random.nextInt(2);
+                    if (rookWhite[rand2].canMove(board)) {
+                        rookWhite[rand2].move(board);
+                        break;
+                    }
+                case 3:
+                    rand2 = random.nextInt(2);
+                    if (castleWhite[rand2].canMove(board)) {
+                        castleWhite[rand2].move(board);
+                        break;
+                    }
+                case 4:
+                    if (kingWhite.canMove(board)) {
+                        kingWhite.move(board);
+                        break;
+                    }
+                case 5:
+                    if (queenWhite.canMove(board)) {
+                        queenWhite.move(board);
+                        break;
+                    }
+            }
+        }
+    }
+
+    private void stepBlackFigures() {
+        while (Arrays.deepEquals(cloneChessBoard, board)) {
+            int rand = random.nextInt(6);
+            switch (rand) {
+                case 0:
+                    int rand2 = random.nextInt(8);
+                    if (pawnBlack[rand2].canMove(board)) {
+                        pawnBlack[rand2].move(board);
+                        break;
+                    }
+                case 1:
+                    rand2 = random.nextInt(2);
+                    if (bishopBlack[rand2].canMove(board)) {
+                        bishopBlack[rand2].move(board);
+                        break;
+                    }
+                case 2:
+                    rand2 = random.nextInt(2);
+                    if (rookBlack[rand2].canMove(board)) {
+                        rookBlack[rand2].move(board);
+                        break;
+                    }
+                case 3:
+                    rand2 = random.nextInt(2);
+                    if (castleBlack[rand2].canMove(board)) {
+                        castleBlack[rand2].move(board);
+                        break;
+                    }
+                case 4:
+                    if (kingBlack.canMove(board)) {
+                        kingBlack.move(board);
+                        break;
+                    }
+                case 5:
+                    if (queenBlack.canMove(board)) {
+                        queenBlack.move(board);
+                        break;
+                    }
+            }
+        }
+    }
+
+    private boolean cantMove() {
+        return (!(pawnWhite[0].canMove(board) || pawnWhite[1].canMove(board) || pawnWhite[2].canMove(board) || pawnWhite[3].canMove(board)
+                || pawnWhite[4].canMove(board) || pawnWhite[5].canMove(board) || pawnWhite[6].canMove(board) || pawnWhite[7].canMove(board)
+                || bishopWhite[0].canMove(board) || bishopWhite[1].canMove(board) || rookWhite[0].canMove(board) || rookWhite[1].canMove(board)
+                || castleWhite[0].canMove(board) || castleWhite[1].canMove(board) || kingWhite.canMove(board) || queenWhite.canMove(board)))
+                || (!(pawnBlack[0].canMove(board) || pawnBlack[1].canMove(board) || pawnBlack[2].canMove(board) || pawnBlack[3].canMove(board)
+                || pawnBlack[4].canMove(board) || pawnBlack[5].canMove(board) || pawnBlack[6].canMove(board) || pawnBlack[7].canMove(board)
+                || bishopBlack[0].canMove(board) || bishopBlack[1].canMove(board) || rookBlack[0].canMove(board) || rookBlack[1].canMove(board)
+                || castleBlack[0].canMove(board) || castleBlack[1].canMove(board) || kingBlack.canMove(board) || queenBlack.canMove(board)));
+    }
+
+    String[][] cloneBoard(String[][] board) {
+        String[][] cloneChessBoard = new String[8][8];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                tempBoard[i][j] = board[i][j];
+                cloneChessBoard[i][j] = board[i][j];
             }
         }
-        return tempBoard;
+        return cloneChessBoard;
     }
 
     void showBoard(String[][] board) {
