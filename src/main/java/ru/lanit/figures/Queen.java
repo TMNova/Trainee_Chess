@@ -2,11 +2,11 @@ package ru.lanit.figures;
 
 import ru.lanit.board.ChessBoard;
 
-import java.util.Random;
+import org.apache.commons.lang3.RandomUtils;
 
 
 public class Queen extends Figure {
-    Random random = new Random();
+    private RandomUtils random = new RandomUtils();
     final byte[][] STEPS = new byte[][]{
             {-1, 0},
             {1, 0},
@@ -72,7 +72,7 @@ public class Queen extends Figure {
             int cloneCol = getCol();
             int cloneRow = getRow();
             while (cloneCol == getCol() && cloneRow == getRow()) {
-                int colSteps = random.nextInt(8);
+                int colSteps = random.nextInt(0, 8);
                 if ((getCol() + STEPS[colSteps][0] > 0 && getCol() + STEPS[colSteps][0] < 7
                         && getRow() + STEPS[colSteps][1] > 0 && getRow() + STEPS[colSteps][1] < 7)
                         && (ChessBoard.emptyCell.equals(board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]])
@@ -88,7 +88,7 @@ public class Queen extends Figure {
             int cloneCol = getCol();
             int cloneRow = getRow();
             while (cloneCol == getCol() && cloneRow == getRow()) {
-                int colSteps = random.nextInt(8);
+                int colSteps = random.nextInt(0, 8);
                 if ((getCol() + STEPS[colSteps][0] > 0 && getCol() + STEPS[colSteps][0] < 7
                         && getRow() + STEPS[colSteps][1] > 0 && getRow() + STEPS[colSteps][1] < 7)
                         && (ChessBoard.emptyCell.equals(board[getCol() + STEPS[colSteps][0]][getRow() + STEPS[colSteps][1]])

@@ -2,10 +2,12 @@ package ru.lanit.figures;
 
 import ru.lanit.board.ChessBoard;
 
-import java.util.Random;
+import org.apache.commons.lang3.RandomUtils;
+
+
 
 public class Bishop extends Figure {
-    private Random random = new Random();
+    private RandomUtils random = new RandomUtils();
 
     public Bishop(boolean isWhite) {
         setWhite(isWhite);
@@ -89,7 +91,7 @@ public class Bishop extends Figure {
             int cloneCol = getCol();
             int cloneRow = getRow();
             while (cloneCol == getCol() && cloneRow == getRow()) {
-                int rand = random.nextInt(8);
+                int rand = random.nextInt(0, 8);
                         if (getCol() - rand > 0 && getRow() - rand > 0
                                 && ((board[getCol() - rand][getRow() - rand].equals(ChessBoard.emptyCell))
                                 || (board[getCol() - rand][getRow() - rand].charAt(1) != ChessBoard.whiteFigureCell))) {
@@ -133,7 +135,7 @@ public class Bishop extends Figure {
             int cloneCol = getCol();
             int cloneRow = getRow();
             while (cloneCol == getCol() && cloneRow == getRow()) {
-                int rand = random.nextInt(8);
+                int rand = random.nextInt(0, 8);
                         if (getCol() - rand > 0 && getRow() - rand > 0
                                 && ((board[getCol() - rand][getRow() - rand].equals(ChessBoard.emptyCell))
                                 || (board[getCol() - rand][getRow() - rand].charAt(1) != ChessBoard.whiteFigureCell))) {

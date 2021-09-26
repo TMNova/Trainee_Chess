@@ -2,10 +2,10 @@ package ru.lanit.figures;
 
 import ru.lanit.board.ChessBoard;
 
-import java.util.Random;
+import org.apache.commons.lang3.RandomUtils;
 
 public class Pawn extends Figure {
-    private Random random = new Random();
+    private RandomUtils random = new RandomUtils();
 
     public Pawn(boolean isWhite) {
         setWhite(isWhite);
@@ -70,7 +70,7 @@ public class Pawn extends Figure {
             int cloneCol = getCol();
             int cloneRow = getRow();
             while (cloneCol == getCol() && cloneRow == getRow()) {
-                int rand = random.nextInt(3);
+                int rand = random.nextInt(0, 3);
                 switch (rand) {
                     case 0:
                         if (getCol() > 0 && (!board[getCol() - 1][getRow()].equals(ChessBoard.emptyCell) && board[getCol() - 1][getRow()].charAt(1) != ChessBoard.whiteFigureCell) || board[getCol() - 1][getRow()].equals(ChessBoard.emptyCell)) {
@@ -102,7 +102,7 @@ public class Pawn extends Figure {
             int cloneCol = getCol();
             int cloneRow = getRow();
             while (cloneCol == getCol() && cloneRow == getRow()) {
-                int rand = random.nextInt(3);
+                int rand = random.nextInt(0, 3);
                 switch (rand) {
                     case 0:
                         if (getCol() < 7 && (!board[getCol() + 1][getRow()].equals(ChessBoard.emptyCell) && board[getCol() + 1][getRow()].charAt(1) != ChessBoard.blackFigureCell) || board[getCol() + 1][getRow()].equals(ChessBoard.emptyCell)) {

@@ -1,8 +1,8 @@
 package ru.lanit.board;
 
 import java.util.Arrays;
-import java.util.Random;
 import ru.lanit.figures.*;
+import org.apache.commons.lang3.RandomUtils;
 
 public class ChessBoard {
     private String[][] board;
@@ -19,7 +19,7 @@ public class ChessBoard {
     private Queen queenWhite = new Queen(true);
     private Queen queenBlack = new Queen(false);
     private String[][] cloneChessBoard;
-    private Random random = new Random();
+    private RandomUtils random = new RandomUtils();
     public static final String emptyCell = "-";
     public static final char whiteFigureCell = 'W';
     public static final char blackFigureCell = 'B';
@@ -85,29 +85,29 @@ public class ChessBoard {
 
     private void stepWhiteFigures() {
         while (Arrays.deepEquals(board, cloneChessBoard)) {
-            int rand = random.nextInt(6);
+            int rand = random.nextInt(0, 6);
             int rand2 = 0;
             switch (rand) {
                 case 0:
-                    rand2 = random.nextInt(8);
+                    rand2 = random.nextInt(0, 8);
                     if (pawnWhite[rand2].canMove(board)) {
                         pawnWhite[rand2].move(board);
                         break;
                     }
                 case 1:
-                    rand2 = random.nextInt(2);
+                    rand2 = random.nextInt(0, 2);
                     if (bishopWhite[rand2].canMove(board)) {
                         bishopWhite[rand2].move(board);
                         break;
                     }
                 case 2:
-                    rand2 = random.nextInt(2);
+                    rand2 = random.nextInt(0, 2);
                     if (rookWhite[rand2].canMove(board)) {
                         rookWhite[rand2].move(board);
                         break;
                     }
                 case 3:
-                    rand2 = random.nextInt(2);
+                    rand2 = random.nextInt(0, 2);
                     if (castleWhite[rand2].canMove(board)) {
                         castleWhite[rand2].move(board);
                         break;
@@ -128,28 +128,28 @@ public class ChessBoard {
 
     private void stepBlackFigures() {
         while (Arrays.deepEquals(cloneChessBoard, board)) {
-            int rand = random.nextInt(6);
+            int rand = random.nextInt(0, 6);
             switch (rand) {
                 case 0:
-                    int rand2 = random.nextInt(8);
+                    int rand2 = random.nextInt(0, 8);
                     if (pawnBlack[rand2].canMove(board)) {
                         pawnBlack[rand2].move(board);
                         break;
                     }
                 case 1:
-                    rand2 = random.nextInt(2);
+                    rand2 = random.nextInt(0, 2);
                     if (bishopBlack[rand2].canMove(board)) {
                         bishopBlack[rand2].move(board);
                         break;
                     }
                 case 2:
-                    rand2 = random.nextInt(2);
+                    rand2 = random.nextInt(0, 2);
                     if (rookBlack[rand2].canMove(board)) {
                         rookBlack[rand2].move(board);
                         break;
                     }
                 case 3:
-                    rand2 = random.nextInt(2);
+                    rand2 = random.nextInt(0, 2);
                     if (castleBlack[rand2].canMove(board)) {
                         castleBlack[rand2].move(board);
                         break;

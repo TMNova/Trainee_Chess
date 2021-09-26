@@ -1,0 +1,9 @@
+ru/lanit/figures/Queen.class
+ru/lanit/figures/Figure.class
+ru/lanit/figures/Bishop.class
+ru/lanit/figures/King.class
+ru/lanit/board/ChessBoard.class
+ru/lanit/figures/Castle.class
+ru/lanit/figures/Pawn.class
+ru/lanit/Main.class
+ru/lanit/figures/Rook.class
