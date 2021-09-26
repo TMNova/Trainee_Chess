@@ -5,7 +5,7 @@
   <artifactId>Main</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>desktop</name>
+  <name>Chess</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
@@ -34,7 +34,7 @@
                 </descriptorRefs>
                 <archive>
                     <manifest>
-                        <mainClass>org.apache.commons</mainClass>
+                        <mainClass>ru.lanit.Main</mainClass>
                     </manifest>
                 </archive>
             </configuration>
